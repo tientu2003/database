@@ -9,3 +9,30 @@ $$
 	VALUES(_user_id, _book_id, _copy_id, _staff_id, _borrow_date, _due_date, _payment_status);
 $$
 LANGUAGE sql;
+
+-- 
+-- Trigger to change borrow priority
+-- 
+CREATE OR REPLACE FUNCTION resetPriority()
+RETURNS TRIGGER
+AS
+$$
+	BEGIN
+		UPDATE books_borrowing
+		SET priority = CASE
+			WHEN payment_status = 'paid' THEN '1'
+			WHEN now() > due_date THEN '5'
+			WHEN now() - borrow_date > (due_date - borrow_date) / 4 THEN '2'
+			WHEN now() - borrow_date > (due_date - borrow_date) / 2 THEN '3'
+			WHEN now() - borrow_date > 3 * (due_date - borrow_date) / 4 THEN '4'
+			ELSE '1'
+		END
+		WHERE payment_id = NEW.payment_id;
+		RETURN NEW;
+	END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER borrowPriority
+AFTER INSERT OR UPDATE ON books_borrowing
+FOR EACH ROW EXECUTE PROCEDURE resetPriority();

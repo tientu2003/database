@@ -1,13 +1,13 @@
-DROP TABLE staffs CASCADE;
-DROP TABLE materials CASCADE;
-DROP TABLE material_copies CASCADE;
-DROP TABLE magazines CASCADE;
-DROP TABLE material_importations CASCADE;
-DROP TABLE newspapers CASCADE;
-DROP TABLE users CASCADE;
-DROP TABLE books CASCADE;
-DROP TABLE reading_histories CASCADE;
-DROP TABLE books_borrowing CASCADE;
+-- DROP TABLE staffs CASCADE;
+-- DROP TABLE materials CASCADE;
+-- DROP TABLE material_copies CASCADE;
+-- DROP TABLE magazines CASCADE;
+-- DROP TABLE material_importations CASCADE;
+-- DROP TABLE newspapers CASCADE;
+-- DROP TABLE users CASCADE;
+-- DROP TABLE books CASCADE;
+-- DROP TABLE reading_histories CASCADE;
+-- DROP TABLE books_borrowing CASCADE;
 -- 1
 CREATE TABLE staffs
 (

@@ -1,9 +1,18 @@
-CREATE OR REPLACE TRIGGER check_insert_import 
-	AFTER UPDATE ON material_copies
-	FOR EACH ROW 
-	EXECUTE FUNCTION check_copy_exists(ROW.copy_id);
--- INSERT INTO staffs Values(1,'Amanda Lesch','f','42 Metz Mills','1952.66','Terrence.Towne96@hotmail.com','07  04 2023');
+CREATE OR REPLACE FUNCTION public.updateMaterials()
+RETURNS TRIGGER 
+AS 
+$$
+BEGIN
+	update materials set total_quantity = total_quantity + 1
+	where material_id = NEW.material_id;
+	update materials set available_quantity = available_quantity + 1
+	where material_id = NEW.material_id;
+	return NEW;
+END; 
+$$
+LANGUAGE plpgsql;
 
-INSERT INTO material_importations Values(
-	1,1,'02 02 2003','A'
-)
+CREATE OR REPLACE TRIGGER check_insert_copy 
+	AFTER INSERT OR UPDATE ON material_copies
+	FOR EACH ROW
+	EXECUTE FUNCTION public.updateMaterials();

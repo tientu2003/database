@@ -2,7 +2,7 @@
 -- Feature check in 
 -- 
 CREATE OR REPLACE FUNCTION feature_check_in(_payment_id int)
-RETURNS VOID
+RETURNS SETOF books_borrowing
 AS
 $$
 	DECLARE
@@ -16,6 +16,10 @@ $$
 		UPDATE material_copies
 		SET status = '1'
 		WHERE copy_id = _copy_id;
+		
+		SELECT * 
+		FROM books_borrowing
+		WHERE payment_id = _payment_id;
 	END;
 $$
 LANGUAGE plpgsql;

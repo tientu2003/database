@@ -124,13 +124,11 @@ CREATE TABLE books_borrowing
 	priority int,
 	borrow_date date,
 	due_date date,
-	book_cost float,
 	payment_status boolean,
 	CONSTRAINT fk_booksborrowing_userid FOREIGN KEY (user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_bookborrowing_bookid FOREIGN KEY (book_id) REFERENCES books(book_id),
 	CONSTRAINT fk_booksborrowing_copyid FOREIGN KEY (copy_id) REFERENCES material_copies(copy_id),
 	CONSTRAINT fk_booksborrowing_staffid FOREIGN KEY (staff_id) REFERENCES staffs(staff_id),
 	CONSTRAINT chk_priority CHECK (priority BETWEEN 1 AND 5),
-	CONSTRAINT chk_borrow_date CHECK (borrow_date < due_date),
-	CONSTRAINT chk_book_cost CHECK (book_cost >= 0)
+	CONSTRAINT chk_borrow_date CHECK (borrow_date < due_date)
 );

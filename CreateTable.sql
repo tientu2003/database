@@ -14,7 +14,7 @@ CREATE TABLE staffs
 	staff_id SERIAL PRIMARY KEY,
 	full_name varchar(80) NOT NULL,
 	gender char,
-	staff_location varchar(35),
+	staff_location varchar(60),
 	salary float,
 	email varchar(80),
 	dob date,
@@ -27,34 +27,36 @@ CREATE TABLE materials
 (
 	material_id int PRIMARY KEY,
 	material_name varchar(80) NOT NULL,
-	material_type varchar(10) NOT NULL,
-	publisher varchar(30),
+	material_type int NOT NULL,
+	publisher varchar(80),
 	publish_date date,
 	total_quantity int,
 	available_quantity int,
 	price float,
-	CONSTRAINT chk_type CHECK (material_type IN ('book', 'newspaper', 'magazine')),
+	CONSTRAINT chk_type CHECK (material_type between 1 and 3),
 	CONSTRAINT chk_total_quantity CHECK(total_quantity >= 0),
 	CONSTRAINT chk_available_quantity CHECK (available_quantity >=0 AND available_quantity <= total_quantity),
 	CONSTRAINT chk_price CHECK (price >= 0)
 );
+-- book, newspaper, magazine
 -- 3
 CREATE TABLE material_copies
 (
 	copy_id SERIAL PRIMARY KEY,
 	material_id int NOT NULL,
-	status varchar(20),
+	status int,
 	copy_position varchar(30),
 	CONSTRAINT fk_materialcopies_materialid FOREIGN KEY (material_id) REFERENCES materials(material_id),
-	CONSTRAINT chk_status CHECK (status IN ('available', 'borrowing', 'lost', 'damaged', 'removed'))
+	CONSTRAINT chk_status CHECK (status between 1 and 5)
 );
+-- ('available', 'borrowing', 'lost', 'damaged', 'removed')
 -- 4
 CREATE TABLE material_importations
 (
 	staff_id SERIAL,
 	copy_id SERIAL,
 	acquisition_date date,
-	supplier varchar(30),
+	supplier varchar(60),
 	CONSTRAINT fk_materialimportation_staffid FOREIGN KEY (staff_id) REFERENCES staffs(staff_id),
 	CONSTRAINT fk_materialimportation_copyid FOREIGN KEY (copy_id) REFERENCES material_copies(copy_id),
 	CONSTRAINT material_importations_pk PRIMARY KEY (staff_id, copy_id)
@@ -80,17 +82,15 @@ CREATE TABLE users
 CREATE TABLE newspapers
 (
 	newspaper_id int PRIMARY KEY,
-	newspaper_language varchar(20),
-	newspaper_type int,
+	newspaper_language varchar(60),
 	reporter varchar(80),
-	CONSTRAINT chk_frequency CHECK (newspaper_type Between 1 and 4),
 	CONSTRAINT fk_newspaper_newspaperid FOREIGN KEY (newspaper_id) REFERENCES materials(material_id)
 );
 -- 7
 CREATE TABLE magazines
 (
 	magazine_id int PRIMARY KEY,
-	topic varchar(30),
+	topic varchar(80),
 	issue_number varchar(50),
 	CONSTRAINT fk_magazine_magazineid FOREIGN KEY (magazine_id) REFERENCES materials(material_id)
 );
@@ -98,7 +98,7 @@ CREATE TABLE magazines
 CREATE TABLE books
 (
 	book_id int PRIMARY KEY,
-	genre varchar(20),
+	genre varchar(40),
 	author varchar(80),
 	isbn int,
 	CONSTRAINT fk_book_bookid FOREIGN KEY (book_id) REFERENCES materials(material_id)

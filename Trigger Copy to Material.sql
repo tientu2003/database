@@ -5,10 +5,10 @@ RETURNS TRIGGER
 AS 
 $$
 BEGIN
-	if(NEW.status <> 5 OR NEW.status <> 3) then 
+	if(NEW.status = 1 OR NEW.status = 2 OR NEW.status = 4) then 
 	update materials set total_quantity = total_quantity + 1
 	where material_id = NEW.material_id;
-		if (NEW.status = 1) then 
+		if (NEW.status = 1 )then 
 		update materials set available_quantity = available_quantity + 1
 		where material_id = NEW.material_id;
 		end if;
@@ -29,8 +29,8 @@ RETURNS TRIGGER
 AS 
 $$
 BEGIN
-	if(NEW.status <> 5 OR NEW.status <> 3) then 
-		if (NEW.status = 1) then 
+	if (NEW.status = 1 OR NEW.status = 2 OR NEW.status = 4) then 
+		if (NEW.status = 1 )then 
 		update materials set available_quantity = available_quantity + 1
 		where material_id = NEW.material_id;
 		else  
@@ -48,7 +48,7 @@ END;
 $$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER check_insert_copy 
+CREATE OR REPLACE TRIGGER check_update_copy 
 	AFTER UPDATE OF status ON material_copies
 	FOR EACH ROW
 	EXECUTE FUNCTION public.updateMaterialsWhenUpdateCopy();

@@ -17,5 +17,3 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
-SELECT * FROM addStaffFromFile('D:\1. Tai lieu\2023-1\5. Database lab\Project\database\StaffData.csv');

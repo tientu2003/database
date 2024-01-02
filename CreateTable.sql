@@ -81,9 +81,9 @@ CREATE TABLE newspapers
 (
 	newspaper_id SERIAL PRIMARY KEY,
 	newspaper_language varchar(20),
-	newspaper_type varchar(10),
+	newspaper_type int,
 	reporter varchar(80),
-	CONSTRAINT chk_frequency CHECK (newspaper_type IN ('daily', 'weekly', 'monthly', 'annual')),
+	CONSTRAINT chk_frequency CHECK (newspaper_type Between 1 and 4),
 	CONSTRAINT fk_newspaper_newspaperid FOREIGN KEY (newspaper_id) REFERENCES materials(material_id)
 );
 -- 7

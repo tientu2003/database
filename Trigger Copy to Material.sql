@@ -1,6 +1,6 @@
 -- (1 :'available', 2: 'borrowing',3: 'lost', 4: 'damaged', 5: 'removed')
 
-CREATE OR REPLACE FUNCTION public.updateMaterialsWhenInsert()
+CREATE OR REPLACE FUNCTION public.updateMaterialsWhenInsertCopy()
 RETURNS TRIGGER 
 AS 
 $$
@@ -21,10 +21,10 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE TRIGGER check_insert_copy 
 	AFTER INSERT ON material_copies
 	FOR EACH ROW
-	EXECUTE FUNCTION public.updateMaterialsWhenInsert();
+	EXECUTE FUNCTION public.updateMaterialsWhenInsertCopy();
 	
 	
-CREATE OR REPLACE FUNCTION public.updateMaterialsWhenUpdate()
+CREATE OR REPLACE FUNCTION public.updateMaterialsWhenUpdateCopy()
 RETURNS TRIGGER 
 AS 
 $$
@@ -51,7 +51,7 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE TRIGGER check_insert_copy 
 	AFTER UPDATE OF status ON material_copies
 	FOR EACH ROW
-	EXECUTE FUNCTION public.updateMaterialsWhenUpdate();
+	EXECUTE FUNCTION public.updateMaterialsWhenUpdateCopy();
 
 
 		

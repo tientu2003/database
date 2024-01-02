@@ -16,7 +16,7 @@ AS
 $$
 BEGIN
 	SET datestyle = 'ISO, DMY';
-	EXECUTE format('COPY books_borrowing(user_id,book_id,copy_id,staff_id,borrow_date,due_date,payment_status) FROM %L DELIMITER '','' CSV HEADER', _file);
+	EXECUTE format('COPY books_borrowing(user_id, book_id , copy_id , staff_id ,borrow_date,due_date,payment_status) FROM %L DELIMITER '','' CSV HEADER', _file);
 END;
 $$
 LANGUAGE plpgsql;
@@ -35,7 +35,7 @@ BEGIN
     LOOP
         UPDATE books_borrowing 
 		SET priority = CASE 
-            WHEN payment_status = 'paid' THEN '1'
+            WHEN payment_status = true THEN '1'
 			WHEN now() > due_date THEN '5'
 			WHEN now() - borrow_date > (due_date - borrow_date) / 4 THEN '2'
 			WHEN now() - borrow_date > (due_date - borrow_date) / 2 THEN '3'
@@ -58,7 +58,7 @@ $$
 	BEGIN
 		UPDATE books_borrowing
 		SET priority = CASE
-			WHEN payment_status = 'paid' THEN '1'
+			WHEN payment_status = true THEN '1'
 			WHEN now() > due_date THEN '5'
 			WHEN now() - borrow_date > (due_date - borrow_date) / 4 THEN '2'
 			WHEN now() - borrow_date > (due_date - borrow_date) / 2 THEN '3'

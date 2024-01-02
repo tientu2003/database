@@ -25,7 +25,7 @@ CREATE TABLE staffs
 -- 2
 CREATE TABLE materials
 (
-	material_id SERIAL PRIMARY KEY,
+	material_id int PRIMARY KEY,
 	material_name varchar(80) NOT NULL,
 	material_type varchar(10) NOT NULL,
 	publisher varchar(30),
@@ -42,7 +42,7 @@ CREATE TABLE materials
 CREATE TABLE material_copies
 (
 	copy_id SERIAL PRIMARY KEY,
-	material_id SERIAL NOT NULL,
+	material_id int NOT NULL,
 	status varchar(20),
 	copy_position varchar(30),
 	CONSTRAINT fk_materialcopies_materialid FOREIGN KEY (material_id) REFERENCES materials(material_id),
@@ -79,7 +79,7 @@ CREATE TABLE users
 -- 6
 CREATE TABLE newspapers
 (
-	newspaper_id SERIAL PRIMARY KEY,
+	newspaper_id int PRIMARY KEY,
 	newspaper_language varchar(20),
 	newspaper_type int,
 	reporter varchar(80),
@@ -89,7 +89,7 @@ CREATE TABLE newspapers
 -- 7
 CREATE TABLE magazines
 (
-	magazine_id SERIAL PRIMARY KEY,
+	magazine_id int PRIMARY KEY,
 	topic varchar(30),
 	issue_number varchar(50),
 	CONSTRAINT fk_magazine_magazineid FOREIGN KEY (magazine_id) REFERENCES materials(material_id)
@@ -97,7 +97,7 @@ CREATE TABLE magazines
 -- 8
 CREATE TABLE books
 (
-	book_id SERIAL PRIMARY KEY,
+	book_id int PRIMARY KEY,
 	genre varchar(20),
 	author varchar(80),
 	isbn int,
@@ -108,7 +108,7 @@ CREATE TABLE reading_histories
 (
 	user_id SERIAL,
 	read_time timestamp,
-	material_id SERIAL NOT NULL,
+	material_id int NOT NULL,
 	CONSTRAINT fk_readinghistory_userid FOREIGN KEY (user_id) REFERENCES users(user_id),
 	CONSTRAINT readinghistory_pk PRIMARY KEY (user_id, read_time),
 	CONSTRAINT fk_readinghistory_materialid FOREIGN KEY (material_id) REFERENCES materials(material_id)
@@ -118,7 +118,7 @@ CREATE TABLE books_borrowing
 (
 	payment_id SERIAL PRIMARY KEY,
 	user_id SERIAL NOT NULL,
-	book_id SERIAL NOT NULL,
+	book_id int NOT NULL,
 	copy_id SERIAL NOT NULL,
 	staff_id SERIAL NOT NULL,
 	priority int,

@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION searchReadingHistoryByUserID(_id reading_histories.user_id%TYPE)
-RETURNS VOID
+RETURNS SETOF reading_histories
 AS
 $$
 	SELECT * FROM reading_histories
@@ -9,7 +9,7 @@ LANGUAGE sql;
 
 
 CREATE OR REPLACE FUNCTION searchReadingHistoryByMaterialID(_id reading_histories.material_id%TYPE)
-RETURNS VOID 
+RETURNS SETOF reading_histories
 AS
 $$
 	SELECT * FROM reading_histories

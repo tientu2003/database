@@ -1,3 +1,5 @@
+-- (1 :'available', 2: 'borrowing',3: 'lost', 4: 'damaged', 5: 'removed')
+
 CREATE OR REPLACE FUNCTION public.updateMaterialsWhenInsert()
 RETURNS TRIGGER 
 AS 

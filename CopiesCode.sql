@@ -17,5 +17,3 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
-Select * from addCopies(3,1,'1234');

@@ -11,6 +11,33 @@ $$
 LANGUAGE sql;
 
 -- 
+-- Funtion reset all priority 
+-- 
+CREATE OR REPLACE FUNCTION reset_all_priority() 
+RETURNS VOID 
+AS 
+$$
+DECLARE
+    rec RECORD;
+BEGIN
+    FOR rec IN SELECT * FROM books_borrowing
+    LOOP
+        UPDATE books_borrowing 
+		SET priority = CASE 
+            WHEN payment_status = 'paid' THEN '1'
+			WHEN now() > due_date THEN '5'
+			WHEN now() - borrow_date > (due_date - borrow_date) / 4 THEN '2'
+			WHEN now() - borrow_date > (due_date - borrow_date) / 2 THEN '3'
+			WHEN now() - borrow_date > 3 * (due_date - borrow_date) / 4 THEN '4'
+			ELSE '1'
+        END
+        WHERE books_borrowing.payment_id = rec.payment_id;
+    END LOOP;
+END;
+$$ 
+LANGUAGE plpgsql;
+
+-- 
 -- Trigger to change borrow priority
 -- 
 CREATE OR REPLACE FUNCTION resetPriority()

@@ -35,12 +35,12 @@ BEGIN
     LOOP
         UPDATE books_borrowing 
 		SET priority = CASE 
-            WHEN payment_status = true THEN '1'
-			WHEN now() > due_date THEN '5'
-			WHEN now() - borrow_date > (due_date - borrow_date) / 4 THEN '2'
-			WHEN now() - borrow_date > (due_date - borrow_date) / 2 THEN '3'
-			WHEN now() - borrow_date > 3 * (due_date - borrow_date) / 4 THEN '4'
-			ELSE '1'
+            WHEN payment_status = true THEN 1
+			WHEN now()::date > due_date THEN 5
+			WHEN now()::date - borrow_date > (due_date - borrow_date) / 4 THEN 2
+			WHEN now()::date - borrow_date > (due_date - borrow_date) / 2 THEN 3
+			WHEN now()::date - borrow_date > 3 * (due_date - borrow_date) / 4 THEN 4
+			ELSE 1
         END
         WHERE books_borrowing.payment_id = rec.payment_id;
     END LOOP;
@@ -57,13 +57,13 @@ AS
 $$
 	BEGIN
 		UPDATE books_borrowing
-		SET priority = CASE
-			WHEN payment_status = true THEN '1'
-			WHEN now() > due_date THEN '5'
-			WHEN now() - borrow_date > (due_date - borrow_date) / 4 THEN '2'
-			WHEN now() - borrow_date > (due_date - borrow_date) / 2 THEN '3'
-			WHEN now() - borrow_date > 3 * (due_date - borrow_date) / 4 THEN '4'
-			ELSE '1'
+		SET priority = CASE 
+			WHEN payment_status = true THEN 1
+			WHEN now() > due_date THEN 5
+			WHEN (now()::date - borrow_date) > (due_date - borrow_date) / 4 THEN 2
+			WHEN (now()::date - borrow_date) > (due_date - borrow_date) / 2  THEN 3
+			WHEN (now()::date - borrow_date) > 3 * (due_date - borrow_date) / 4 THEN 4
+			ELSE 4
 		END
 		WHERE payment_id = NEW.payment_id;
 		RETURN NEW;

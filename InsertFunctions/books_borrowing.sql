@@ -10,6 +10,17 @@ $$
 $$
 LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION addBorrowRecordFromFile(_file varchar)
+RETURNS VOID
+AS
+$$
+BEGIN
+	SET datestyle = 'ISO, DMY';
+	EXECUTE format('COPY books_borrowing(user_id,book_id,copy_id,staff_id,borrow_date,due_date,payment_status) FROM %L DELIMITER '','' CSV HEADER', _file);
+END;
+$$
+LANGUAGE plpgsql;
+
 -- 
 -- Funtion reset all priority 
 -- 

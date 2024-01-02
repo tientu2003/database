@@ -8,7 +8,7 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-Select * from addUserFromFile('C:\Users\acer\Downloads\UserData.csv');
+Select * from addUserFromFile('D:\1. Tai lieu\2023-1\5. Database lab\Project\database\UserData.csv');
 
 CREATE OR REPLACE FUNCTION addUser(_name users.full_name%TYPE, _dob users.dob%TYPE, _gender users.gender%TYPE, 
 _phone users.phone_number%TYPE, _address users.address%TYPE,_email users.email%TYPE,_payment users.payment_method%TYPE,
@@ -24,3 +24,4 @@ LANGUAGE sql;
 Select * from addUser('Nguyen Van A','25 12 2000','m','01122334','123 Le Thanh Nghi','A@gmail.com','1','Anv1234','asdfgfgfgf');
 -- check
 Select * from users where full_name Like 'Nguyen Van A';
+insert into users values (0,'Test','12 02 2003','f','0121321321','ABC street','Zero@gmail.com','1','zero2213','asdsdsa');

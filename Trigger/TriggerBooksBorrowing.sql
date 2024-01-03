@@ -14,6 +14,6 @@ $$
 $$ 
 LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_add_book_borrow_record
+CREATE OR REPLACE TRIGGER trigger_add_book_borrow_record
 AFTER INSERT ON books_borrowing
 FOR EACH ROW EXECUTE PROCEDURE update_material_copies_status();

@@ -23,7 +23,6 @@ CREATE OR REPLACE TRIGGER check_insert_copy
 	FOR EACH ROW
 	EXECUTE FUNCTION public.updateMaterialsWhenInsertCopy();
 	
-	
 CREATE OR REPLACE FUNCTION public.updateMaterialsWhenUpdateCopy()
 RETURNS TRIGGER 
 AS 

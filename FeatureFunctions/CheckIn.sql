@@ -17,6 +17,7 @@ $$
 		SET status = '1'
 		WHERE copy_id = _copy_id;
 		
+		RETURN QUERY 
 		SELECT * 
 		FROM books_borrowing
 		WHERE payment_id = _payment_id;

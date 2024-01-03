@@ -9,7 +9,7 @@ SELECT * FROM searchReadingHistoryByMaterialID(5555);
 
 -- check in
 SELECT * FROM books_borrowing WHERE payment_id = 1001;
-SELECT * FROM feature_check_in(1000);
+SELECT * FROM feature_check_in(1001);
 
 -- check out
 SELECT * FROM function_check_out(1,2,1888,120,'03 01 2024',7);
@@ -21,4 +21,9 @@ SELECT * FROM material_copies WHERE copy_id = 1;
 SELECT * FROM materials WHERE material_id = 1888;
 SELECT * FROM feature_update_copy_status(1,1,'D1234');
 SELECT * FROM materials WHERE material_id = 1888;
+
+-- insert FUNCTION
+SELECT addCopies(330,1,'D1234');
+SELECT * FROM material_copies WHERE material_id = 330;
+
 

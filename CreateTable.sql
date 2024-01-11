@@ -1,13 +1,14 @@
--- DROP TABLE staffs CASCADE;
--- DROP TABLE materials CASCADE;
--- DROP TABLE material_copies CASCADE;
--- DROP TABLE magazines CASCADE;
--- DROP TABLE material_importations CASCADE;
--- DROP TABLE newspapers CASCADE;
--- DROP TABLE users CASCADE;
--- DROP TABLE books CASCADE;
--- DROP TABLE reading_histories CASCADE;
--- DROP TABLE books_borrowing CASCADE;
+DROP TABLE staffs CASCADE;
+DROP TABLE materials CASCADE;
+DROP TABLE book_copies CASCADE;
+DROP TABLE magazines CASCADE;
+DROP TABLE material_importations CASCADE;
+DROP TABLE newspapers CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE books CASCADE;
+DROP TABLE reading_histories CASCADE;
+DROP TABLE books_borrowing CASCADE;
+
 -- 1
 CREATE TABLE staffs
 (
@@ -39,29 +40,8 @@ CREATE TABLE materials
 	CONSTRAINT chk_price CHECK (price >= 0)
 );
 -- book, newspaper, magazine
+
 -- 3
-CREATE TABLE material_copies
-(
-	copy_id SERIAL PRIMARY KEY,
-	material_id int NOT NULL,
-	status int,
-	copy_position varchar(30),
-	CONSTRAINT fk_materialcopies_materialid FOREIGN KEY (material_id) REFERENCES materials(material_id),
-	CONSTRAINT chk_status CHECK (status between 1 and 5)
-);
--- ('available', 'borrowing', 'lost', 'damaged', 'removed')
--- 4
-CREATE TABLE material_importations
-(
-	staff_id SERIAL,
-	copy_id SERIAL,
-	acquisition_date date,
-	supplier varchar(60),
-	CONSTRAINT fk_materialimportation_staffid FOREIGN KEY (staff_id) REFERENCES staffs(staff_id),
-	CONSTRAINT fk_materialimportation_copyid FOREIGN KEY (copy_id) REFERENCES material_copies(copy_id),
-	CONSTRAINT material_importations_pk PRIMARY KEY (staff_id, copy_id)
-);
--- 5
 CREATE TABLE users
 (
 	user_id SERIAL,
@@ -78,7 +58,8 @@ CREATE TABLE users
 	CONSTRAINT chk_gender CHECK (gender IN ('m', 'f')),
 	CONSTRAINT chk_email CHECK (email LIKE '%_@_%._%')
 );
--- 6
+
+-- 4
 CREATE TABLE newspapers
 (
 	newspaper_id int PRIMARY KEY,
@@ -86,7 +67,8 @@ CREATE TABLE newspapers
 	reporter varchar(80),
 	CONSTRAINT fk_newspaper_newspaperid FOREIGN KEY (newspaper_id) REFERENCES materials(material_id)
 );
--- 7
+
+-- 5
 CREATE TABLE magazines
 (
 	magazine_id int PRIMARY KEY,
@@ -94,7 +76,8 @@ CREATE TABLE magazines
 	issue_number varchar(50),
 	CONSTRAINT fk_magazine_magazineid FOREIGN KEY (magazine_id) REFERENCES materials(material_id)
 );
--- 8
+
+-- 6
 CREATE TABLE books
 (
 	book_id int PRIMARY KEY,
@@ -103,6 +86,31 @@ CREATE TABLE books
 	isbn int,
 	CONSTRAINT fk_book_bookid FOREIGN KEY (book_id) REFERENCES materials(material_id)
 );
+
+-- 7
+CREATE TABLE book_copies
+(
+	copy_id SERIAL PRIMARY KEY,
+	book_id int NOT NULL,
+	status int,
+	copy_position varchar(30),
+	CONSTRAINT fk_materialcopies_materialid FOREIGN KEY (book_id) REFERENCES books(book_id),
+	CONSTRAINT chk_status CHECK (status between 1 and 5)
+);
+-- ('available', 'borrowing', 'lost', 'damaged', 'removed')
+
+-- 8
+CREATE TABLE material_importations
+(
+	staff_id SERIAL,
+	material_id int,
+	acquisition_date date,
+	supplier varchar(60),
+	CONSTRAINT fk_materialimportation_staffid FOREIGN KEY (staff_id) REFERENCES staffs(staff_id),
+	CONSTRAINT fk_materialimportation_copyid FOREIGN KEY (material_id) REFERENCES materials(material_id),
+	CONSTRAINT material_importations_pk PRIMARY KEY (staff_id, material_id)
+);
+
 -- 9
 CREATE TABLE reading_histories
 (
@@ -113,12 +121,12 @@ CREATE TABLE reading_histories
 	CONSTRAINT readinghistory_pk PRIMARY KEY (user_id, read_time),
 	CONSTRAINT fk_readinghistory_materialid FOREIGN KEY (material_id) REFERENCES materials(material_id)
 );
+
 -- 10
 CREATE TABLE books_borrowing
 (
 	payment_id SERIAL PRIMARY KEY,
 	user_id SERIAL NOT NULL,
-	book_id int NOT NULL,
 	copy_id SERIAL NOT NULL,
 	staff_id SERIAL NOT NULL,
 	priority int,
@@ -126,8 +134,7 @@ CREATE TABLE books_borrowing
 	due_date date,
 	payment_status boolean,
 	CONSTRAINT fk_booksborrowing_userid FOREIGN KEY (user_id) REFERENCES users(user_id),
-	CONSTRAINT fk_bookborrowing_bookid FOREIGN KEY (book_id) REFERENCES books(book_id),
-	CONSTRAINT fk_booksborrowing_copyid FOREIGN KEY (copy_id) REFERENCES material_copies(copy_id),
+	CONSTRAINT fk_booksborrowing_copyid FOREIGN KEY (copy_id) REFERENCES book_copies(copy_id),
 	CONSTRAINT fk_booksborrowing_staffid FOREIGN KEY (staff_id) REFERENCES staffs(staff_id),
 	CONSTRAINT chk_priority CHECK (priority between 1 and 5),
 	CONSTRAINT chk_borrow_date CHECK (borrow_date < due_date)

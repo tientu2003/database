@@ -32,7 +32,7 @@ RETURNS VOID
 AS
 $$
 BEGIN	
-	EXECUTE format('COPY material_importations(staff_id, copy_id, acquisition_date, supplier) FROM %L DELIMITER '','' CSV HEADER', _file);
+	EXECUTE format('COPY material_importations(staff_id, material_id, acquisition_date, supplier) FROM %L DELIMITER '','' CSV HEADER', _file);
 END;
 $$
 LANGUAGE plpgsql;

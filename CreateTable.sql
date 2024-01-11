@@ -8,7 +8,6 @@ DROP TABLE users CASCADE;
 DROP TABLE books CASCADE;
 DROP TABLE reading_histories CASCADE;
 DROP TABLE books_borrowing CASCADE;
-
 -- 1
 CREATE TABLE staffs
 (

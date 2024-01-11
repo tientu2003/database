@@ -13,7 +13,7 @@ $$
 		WHERE payment_id = _payment_id
 		RETURNING copy_id INTO _copy_id;
 		
-		UPDATE material_copies
+		UPDATE book_copies
 		SET status = '1'
 		WHERE copy_id = _copy_id;
 		

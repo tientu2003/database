@@ -429,6 +429,7 @@ FOR EACH ROW EXECUTE PROCEDURE increaseQuantityOfMagazineAndNewsPaper();
 ------------------------------------------------------------------------------------------------------
 --- User Data
 ------------------------------------------------------------------------------------------------------
+SET datestyle = 'ISO, DMY';
 insert into users (user_id, full_name, dob, gender, phone_number, address, email, payment_method, username, user_password) values (1, 'Shani Wadeling', '03/01/2006', 'F', 9443629, '27925 Beilfuss Plaza', 'swadeling0@java.com', 'jcb', 'swadeling0', 'oT5_EoqooxP\+');
 insert into users (user_id, full_name, dob, gender, phone_number, address, email, payment_method, username, user_password) values (2, 'Hilliard Davidsen', '12/07/2022', 'F', 9697081, '43 Fallview Pass', 'hdavidsen1@geocities.jp', 'maestro', 'hdavidsen1', 'kD9}`f1}');
 insert into users (user_id, full_name, dob, gender, phone_number, address, email, payment_method, username, user_password) values (3, 'Maury Polini', '17/11/2017', 'M', 9135965, '712 Darwin Drive', 'mpolini2@altervista.org', 'jcb', 'mpolini2', 'hZ1+f/J1K@Sf!7');

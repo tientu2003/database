@@ -1,7 +1,7 @@
 -- 
 -- Feature check out
 -- 
-CREATE OR REPLACE FUNCTION function_check_out(_user_id int, _copy_id int, _staff_id int, _borrow_date date, _time_for_borrowing int)
+CREATE OR REPLACE FUNCTION feature_check_out(_user_id int, _copy_id int, _staff_id int, _borrow_date date, _time_for_borrowing int)
 RETURNS SETOF books_borrowing
 AS
 $$

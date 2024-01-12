@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION importMaterial(_material_id int, _material_name varchar, _material_type int, _publisher varchar, _publish_date date, _price float, _staff_id int, _date date, _supplier varchar)
+CREATE OR REPLACE FUNCTION insertNewRecordMaterials_Importations(_material_id int, _material_name varchar, _material_type int, _publisher varchar, _publish_date date, _price float, _staff_id int, _date date, _supplier varchar)
 RETURNS VOID 
 AS
 $$
